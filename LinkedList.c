@@ -78,6 +78,21 @@ int main() {
 
 	printf("Insertion at the end: ");
 	printStructure(head);
+	
+	//insert after a specified element
+	struct node *new2 = (struct node*) malloc(sizeof(struct node));
+	//add between 2 and 3 a value 6
+	new2->data = 6;
+	struct node *t2  = (struct node*) malloc(sizeof(struct node));
+	t2 = head;
+	//increment t2 until it points to node which has 2 as data
+	while(t2->data!=2) {
+		t2=t2->next;
+	}
+	//new's next will be t2's next and t2's next will be new2 - inserting in between
+	new2->next = t2->next;
+	t2->next = new2;
 
+	printStructure(head);
 }
 
