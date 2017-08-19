@@ -16,6 +16,13 @@ void printStructure(struct node *s) {
 	printf("\n");
 
 }
+
+void printRecursively(struct node *s) {
+	if(s) {
+		printf("%d ", s->data);
+		printRecursively(s->next);
+	}
+}
 int main() {
 
 	struct node* head = NULL;
@@ -52,7 +59,7 @@ int main() {
 	struct node *new = (struct node*)malloc(sizeof(struct node));
 	new->data = 0;
 
-	struct node *temp = (struct node*)malloc(sizeof(struct node));
+	struct node *temp;
 	temp = head;
 
 	new->next= temp;
@@ -64,7 +71,7 @@ int main() {
 	//reach the end, create the node, make the end's next point to new with new's next as NULL
 	
 	struct node *new1 = (struct node*) malloc(sizeof(struct node));
-	struct node *t1 = (struct node*) malloc(sizeof(struct node));
+	struct node *t1;
 	t1 = head;
 	new1->data = 4;
 	new1->next = NULL;
@@ -83,7 +90,7 @@ int main() {
 	struct node *new2 = (struct node*) malloc(sizeof(struct node));
 	//add between 2 and 3 a value 6
 	new2->data = 6;
-	struct node *t2  = (struct node*) malloc(sizeof(struct node));
+	struct node *t2;
 	t2 = head;
 	//increment t2 until it points to node which has 2 as data
 	while(t2->data!=2) {
@@ -92,7 +99,72 @@ int main() {
 	//new's next will be t2's next and t2's next will be new2 - inserting in between
 	new2->next = t2->next;
 	t2->next = new2;
+	printf("Intermediate insertion between 2 and 3: ");
+	printStructure(head);
+	
+	//Deletion 
+	//1. from the beginning
+	//create temparory variable, point it to head, move head and free temparory
+	
+	struct node *td = head;
+	//check for empty/single node
+	if(head==NULL) return 0;
+	if(head->next==NULL){
+		free(head);
+		head = NULL;
+		return 0;
+	}
+	//move the head
+	head=head->next;
+	free(td);
+	printf("Delete from the beginning: ");
+	printStructure(head);
 
+	//2. delete from the end
+	struct node *tm = head;
+	//while breaks when the next element points to null 
+	//cuz penultimate node becomes the last node when deletion happens
+	//
+	while(t->next->next!=NULL) {
+		t=t->next;
+	}
+	free(t->next);
+	t->next=NULL;
+
+	printf("Deletion at the end: ");
+	printStructure(head);
+
+	//3. delete intermediate node
+	struct node* tempp = head; 
+	while(tempp->next->data!=6) 
+		tempp=tempp->next;
+	struct node *tem = tempp->next->next;
+	free(tempp->next);
+	tempp->next = tem;
+	printf("Delete an intermediate node (6): ");
+	printStructure(head);
+
+
+	//Recursively output the list
+	printf("Printing recursively: ");
+	printRecursively(head);
+
+	
+	//Reverse iteratively
+
+	struct node* prev=NULL;
+	struct node* current = head;
+	struct node* next;
+	
+	while(current!=NULL) {
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	} 
+	head = prev;
+	printf("\nReversed list: ");
 	printStructure(head);
 }
+
 
